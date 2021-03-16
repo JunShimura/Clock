@@ -27,9 +27,15 @@ public class ClockDisplay : MonoBehaviour
     void Update()
     {
         dateTime = System.DateTime.Now;
+        int hour = dateTime.Hour;
+        int minute = dateTime.Minute;
+        int second = dateTime.Second;
         clockLabel.text
-            = dateTime.Hour.ToString() + ":"
-            + dateTime.Minute.ToString() + ":"
-            + dateTime.Second.ToString();
+            = hour.ToString("00") + ":"
+            + minute.ToString("00") + ":"
+            + second.ToString("00");
+        arrow1.rotation = Quaternion.Euler(0, 0, dateTime.Hour*-(360/12));
+        arrow2.rotation = Quaternion.Euler(0, 0, dateTime.Minute * -(360 / 60));
+        arrow3.rotation = Quaternion.Euler(0, 0, dateTime.Second * -(360 / 60));
     }
 }
