@@ -29,19 +29,20 @@ public class ClockDisplay : MonoBehaviour
     void Update()
     {
         dateTime = System.DateTime.Now;
-        float hour = dateTime.Hour;
-        float minute = dateTime.Minute;
-        float second = dateTime.Second;
-        float ms = dateTime.Millisecond;
         clockLabel.text
-            = hour.ToString("00") + ":"
-            + minute.ToString("00") + ":"
-            + second.ToString("00")+":"
-        +ms.ToString("000");
-        arrow1.rotation = Quaternion.Euler(0, 0, (hour+(minute+second/60)/60) * -(360 / 12));
+            = dateTime.Hour.ToString("00") + ":"
+            + dateTime.Minute.ToString("00") + ":"
+            + dateTime.Second.ToString("00")+":"
+            + dateTime.Millisecond.ToString("000");
+        float ms = dateTime.Millisecond;
+        float second = dateTime.Second+ms/1000.0f;
+        float minute = dateTime.Minute+second/60.0f;
+        float hour = dateTime.Hour + minute / 60.0f; ;
+
+        arrow1.rotation = Quaternion.Euler(0, 0, hour * -(360 / 12));
         arrow2.rotation = Quaternion.Euler(0, 0, minute * -(360 / 60));
         arrow3.rotation = Quaternion.Euler(0, 0, second * -(360 / 60));
-        arrow4.rotation = Quaternion.Euler(0, 0, -ms* (360.0f /1000.0f));
+        arrow4.rotation = Quaternion.Euler(0, 0, ms* -(360.0f /1000.0f));
     }
 
 /*    void Update()
