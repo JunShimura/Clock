@@ -13,6 +13,7 @@ namespace ClockSystem
     public class ClockProvider : MonoBehaviour
     {
         public bool realTime = true;
+        public float waitTime = 100.0f;
 
         // singlton
         static private ClockProvider _S = null;
@@ -21,6 +22,8 @@ namespace ClockSystem
             get { return _S; }
         }
         private DateTime dateTime = new System.DateTime();
+        int tickCount;
+        int deltaTickCount;
 
         // Actions
         public event Action<ClockProvider> UpdateHandler;
@@ -64,19 +67,38 @@ namespace ClockSystem
         void Start()
         {
             dateTime = System.DateTime.Now;
+            tickCount = Environment.TickCount;
+            StartCoroutine(TimeUpdate());
         }
 
-        void Update()
+        /*        void Update()
+                {
+                    if (realTime) {
+                        dateTime = dateTime.AddMilliseconds((double)(Time.deltaTime*1000.0f));
+                        hour.val = dateTime.Hour;
+                        minute.val = dateTime.Minute;
+                        second.val = dateTime.Second;
+                        SetFloatTime(dateTime);
+                        UpdateHandler(_S);
+                    }
+                }*/
+        private IEnumerator TimeUpdate()
         {
-            if (realTime) {
-                dateTime = dateTime.AddMilliseconds((double)(Time.deltaTime*1000.0f));
-                hour.val = dateTime.Hour;
-                minute.val = dateTime.Minute;
-                second.val = dateTime.Second;
-                SetFloatTime(dateTime);
-                UpdateHandler(_S);
+            while (true) {
+                if (realTime) {
+                    deltaTickCount = Environment.TickCount - tickCount;
+                    dateTime = dateTime.AddMilliseconds((double)deltaTickCount);
+                    tickCount = Environment.TickCount;
+                    hour.val = dateTime.Hour;
+                    minute.val = dateTime.Minute;
+                    second.val = dateTime.Second;
+                    SetFloatTime(dateTime);
+                    UpdateHandler(_S);
+                }
+                yield return new WaitForSeconds(waitTime);
             }
         }
+
         void SetFloatTime(DateTime dt)
         {
             fSecond = dt.Second + dateTime.Millisecond / 1000.0f;

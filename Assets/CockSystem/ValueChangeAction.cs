@@ -6,7 +6,7 @@ namespace ClockSystem
 {
     public class ValueChangeAction<T> where T : IComparable<T>
     {
-        private T _val;
+        private T _val = default;
         public T val
         {
             get {
@@ -14,14 +14,24 @@ namespace ClockSystem
             }
             set {
                 if (!_val.Equals(value)) {
-                    if (OnChange != null) {
-                        OnChange(value);
+                    if (_OnChange != null) {
+                        _OnChange(value);
                     }
                     _val = value;
 
                 }
             }
         }
-        public event Action<T> OnChange;
+        private event Action<T> _OnChange;
+        public event Action<T> OnChange
+        {
+            add {
+                _OnChange += value;
+                value(_val);
+            }
+            remove {
+                _OnChange -= value;
+            }
+        }
     }
 }

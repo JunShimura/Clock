@@ -17,10 +17,6 @@ public class AnalogClock : MonoBehaviour
     ClockHand hand3;
     [SerializeField]
     ClockHand hand4;
-    private void OnEnable()
-    {
-
-    }
 
     void Start()
     {

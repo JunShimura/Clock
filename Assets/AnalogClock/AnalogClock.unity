@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: baa11a74c57571d4baeca1d25bf1f87f,
+  m_LightingDataAsset: {fileID: 112000000, guid: 69c9e95f693ceb34086b539b4182f711,
     type: 2}
   m_LightingSettings: {fileID: 608903244}
 --- !u!196 &4
@@ -12347,6 +12347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   realTime: 1
+  waitTime: 0.5
 --- !u!4 &846524765
 Transform:
   m_ObjectHideFlags: 0
