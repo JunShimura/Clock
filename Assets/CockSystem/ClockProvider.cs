@@ -20,7 +20,7 @@ namespace ClockSystem
         {
             get { return _S; }
         }
-        private System.DateTime dateTime = new System.DateTime();
+        private DateTime dateTime = new System.DateTime();
 
         // Actions
         public event Action<ClockProvider> UpdateHandler;
@@ -59,7 +59,7 @@ namespace ClockSystem
             second = new ValueChangeAction<int>();
 
 
-    }
+        }
 
         void Start()
         {
@@ -69,14 +69,12 @@ namespace ClockSystem
         void Update()
         {
             if (realTime) {
-                dateTime = System.DateTime.Now;
+                dateTime = dateTime.AddMilliseconds((double)(Time.deltaTime*1000.0f));
                 hour.val = dateTime.Hour;
                 minute.val = dateTime.Minute;
                 second.val = dateTime.Second;
                 SetFloatTime(dateTime);
-                if (UpdateHandler != null) {
-                    UpdateHandler(_S);
-                }
+                UpdateHandler(_S);
             }
         }
         void SetFloatTime(DateTime dt)
