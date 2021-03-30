@@ -3,38 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using System;
 
 namespace ClockSystem
 {
-/// <summary>
-/// Clcck provider
-/// </summary>
+    /// <summary>
+    /// Clcck provider
+    /// </summary>
     public class ClockProvider : MonoBehaviour
     {
-        // singlton
-        static  private ClockProvider _S =null;
-        static private System.DateTime dateTime = new System.DateTime();
+        public bool realTime = true;
 
-        static public int hour
+        // singlton
+        static private ClockProvider _S = null;
+        static public ClockProvider instance
         {
-            get { return dateTime.Hour; }
+            get { return _S; }
         }
-        static public int minuite
-        {
-            get { return dateTime.Minute; }
-        }
-        static public int second
-        {
-            get { return dateTime.Second; }
-        }
-        static public int millisecond
+        private System.DateTime dateTime = new System.DateTime();
+
+        // Actions
+        public event Action<ClockProvider> UpdateHandler;
+        public ValueChangeAction<int> hour;
+        public ValueChangeAction<int> minute;
+        public ValueChangeAction<int> second;
+        public int millisecond
         {
             get { return dateTime.Millisecond; }
         }
+        // clock values as float
         static public float fHour
         {
-            get; private set; 
+            get; private set;
         }
         static public float fMinute
         {
@@ -44,20 +44,22 @@ namespace ClockSystem
         {
             get; private set;
         }
-
-
         private void Awake()
         {
-            if (_S == null)
-            {
-                _S = new ClockProvider();
+            if (_S == null) {
+                _S = this;
                 dateTime = new System.DateTime();
             }
-            else
-            {
+            else {
                 Destroy(this);
+                return;
             }
-        }
+            hour = new ValueChangeAction<int>();
+            minute = new ValueChangeAction<int>();
+            second = new ValueChangeAction<int>();
+
+
+    }
 
         void Start()
         {
@@ -66,10 +68,22 @@ namespace ClockSystem
 
         void Update()
         {
-            dateTime = System.DateTime.Now;
-            fSecond = dateTime.Second + dateTime.Millisecond/1000.0f;
-            fMinute = dateTime.Minute + fSecond / 60.0f;
-            fHour = dateTime.Hour + fMinute / 60.0f; ;
+            if (realTime) {
+                dateTime = System.DateTime.Now;
+                hour.val = dateTime.Hour;
+                minute.val = dateTime.Minute;
+                second.val = dateTime.Second;
+                SetFloatTime(dateTime);
+                if (UpdateHandler != null) {
+                    UpdateHandler(_S);
+                }
+            }
+        }
+        void SetFloatTime(DateTime dt)
+        {
+            fSecond = dt.Second + dateTime.Millisecond / 1000.0f;
+            fMinute = dt.Minute + fSecond / 60.0f;
+            fHour = dt.Hour + fMinute / 60.0f;
         }
 
     }
