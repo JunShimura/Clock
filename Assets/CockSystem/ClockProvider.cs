@@ -30,9 +30,9 @@ namespace ClockSystem
         public ValueChangeAction<int> hour;
         public ValueChangeAction<int> minute;
         public ValueChangeAction<int> second;
-        public int millisecond
+        static public int millisecond
         {
-            get { return dateTime.Millisecond; }
+            get; private set;
         }
         // clock values as float
         static public float fHour
@@ -47,7 +47,8 @@ namespace ClockSystem
         {
             get; private set;
         }
-        private void Awake()
+
+    private void Awake()
         {
             if (_S == null) {
                 _S = this;
@@ -101,7 +102,8 @@ namespace ClockSystem
 
         void SetFloatTime(DateTime dt)
         {
-            fSecond = dt.Second + dateTime.Millisecond / 1000.0f;
+            millisecond = dt.Millisecond;
+            fSecond = dt.Second + millisecond/1000.0f;
             fMinute = dt.Minute + fSecond / 60.0f;
             fHour = dt.Hour + fMinute / 60.0f;
         }

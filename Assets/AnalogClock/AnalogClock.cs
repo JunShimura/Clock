@@ -22,13 +22,14 @@ public class AnalogClock : MonoBehaviour
     {
         clockProvider = ClockProvider.instance;
         clockProvider.second.OnChange += (int s) => {
-            hand3.SetValue((float)s / 60);
+            hand2.SetValue(ClockProvider.fMinute / 60);
+            hand3.SetValue(ClockProvider.fSecond / 60);
         };
         clockProvider.minute.OnChange += (int s) => {
-            hand2.SetValue((float)s / 60);
+            hand1.SetValue(ClockProvider.fHour/12);
         };
-        clockProvider.hour.OnChange += (int s) => {
-            hand1.SetValue((float)s / 12);
+        clockProvider.UpdateHandler += (ClockProvider cp) => {
+            hand4.SetValue((float)ClockProvider.millisecond / 1000.0f);
         };
     }
 }

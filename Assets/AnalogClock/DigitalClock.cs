@@ -23,6 +23,6 @@ public class DigitalClock : MonoBehaviour
                     = clockProvider.hour.val.ToString("00") + ":"
                     + clockProvider.minute.val.ToString("00") + ":"
                     + clockProvider.second.val.ToString("00") + ":"
-                    + clockProvider.millisecond.ToString("000");
+                    + ClockProvider.millisecond.ToString("000");
     }
 }
