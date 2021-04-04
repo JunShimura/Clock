@@ -5,24 +5,27 @@ using TMPro;
 
 using ClockSystem;
 
-public class DigitalClock : MonoBehaviour
+namespace AnalogClock
 {
-    TextMeshProUGUI clockLabel;
-
-    // Start is called before the first frame update
-    void Start()
+    public class DigitalClock : MonoBehaviour
     {
-        clockLabel = GetComponent<TextMeshProUGUI>();
-        ClockProvider.instance.UpdateHandler += UpdateClock;
-    }
+        TextMeshProUGUI clockLabel;
 
-    // Update is called once per frame
-    void UpdateClock(ClockProvider clockProvider)
-    {
-        clockLabel.text
-                    = clockProvider.hour.val.ToString("00") + ":"
-                    + clockProvider.minute.val.ToString("00") + ":"
-                    + clockProvider.second.val.ToString("00") + ":"
-                    + ClockProvider.millisecond.ToString("000");
+        // Start is called before the first frame update
+        void Start()
+        {
+            clockLabel = GetComponent<TextMeshProUGUI>();
+            ClockProvider.instance.UpdateHandler += UpdateClock;
+        }
+
+        // Update is called once per frame
+        void UpdateClock(ClockProvider clockProvider)
+        {
+            clockLabel.text
+                        = clockProvider.hour.val.ToString("00") + ":"
+                        + clockProvider.minute.val.ToString("00") + ":"
+                        + clockProvider.second.val.ToString("00") + ":"
+                        + clockProvider.millisecond.ToString("000");
+        }
     }
 }

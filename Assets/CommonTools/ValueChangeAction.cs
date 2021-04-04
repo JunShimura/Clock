@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-namespace ClockSystem
+namespace CommonTools
 {
     public class ValueChangeAction<T> where T : IComparable<T>
     {
@@ -35,3 +35,4 @@ namespace ClockSystem
         }
     }
 }
+

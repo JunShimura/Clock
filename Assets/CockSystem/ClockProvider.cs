@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+using CommonTools;
+
 namespace ClockSystem
 {
     /// <summary>
@@ -30,20 +32,20 @@ namespace ClockSystem
         public ValueChangeAction<int> hour;
         public ValueChangeAction<int> minute;
         public ValueChangeAction<int> second;
-        static public int millisecond
+        public int millisecond
         {
             get; private set;
         }
         // clock values as float
-        static public float fHour
+        public float fHour
         {
             get; private set;
         }
-        static public float fMinute
+        public float fMinute
         {
             get; private set;
         }
-        static public float fSecond
+        public float fSecond
         {
             get; private set;
         }
@@ -94,7 +96,9 @@ namespace ClockSystem
                     minute.val = dateTime.Minute;
                     second.val = dateTime.Second;
                     SetFloatTime(dateTime);
-                    UpdateHandler(_S);
+                    if (UpdateHandler != null) {
+                        UpdateHandler(_S);
+                    }
                 }
                 yield return new WaitForSeconds(waitTime);
             }
