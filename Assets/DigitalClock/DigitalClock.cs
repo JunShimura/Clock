@@ -21,6 +21,8 @@ namespace DigitalClock
         TextMeshProUGUI coron2Label;
         [SerializeField]
         TextMeshProUGUI secondLabel;
+        [SerializeField]
+        ValueDisplay millisecondDisplay;
 
 
 
@@ -36,6 +38,9 @@ namespace DigitalClock
             };
             clockProvider.second.OnChange += (int s) => {
                 secondLabel.text = s.ToString("00");
+            };
+            clockProvider.UpdateHandler += (ClockProvider cp) => {
+                millisecondDisplay.SetValue((float)cp.millisecond / 1000.0f);
             };
 
         }
